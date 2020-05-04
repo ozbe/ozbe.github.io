@@ -1,0 +1,15 @@
+baseURL = "https://ozbe.io/"
+languageCode = "en-us"
+title = "ozbe.io"
+paginate = 10
+
+[[menu.main]]
+    identifier = "archive"
+    name = "Archive"
+    title = "Archive"
+    url = "/posts/"
+    weight = 0
+
+[params]
+    author = "ozbe"
+    description = ""
