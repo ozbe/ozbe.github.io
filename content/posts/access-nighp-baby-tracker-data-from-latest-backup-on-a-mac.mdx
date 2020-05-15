@@ -1,0 +1,67 @@
+---
+title: Access Nighp Baby Tracker Data from Latest Backup on a Mac
+date: 2020-05-15
+---
+
+## tl;dr
+**Gist with steps:** [ozbe/ Access-Nighp-Baby-Tracker-Data-from-Latest-Backup-on-a-Mac.md](https://gist.github.com/ozbe/fe5c2f692122cdc7e219ad3ec8444b85)
+
+## Background
+My partner and I recently had our first child (🎉). Something (of many things) we found out very quickly was that when you are seeking out answers related to your baby’s health, you get asked how much and when they are sleeping, eating, and… _leveraging their diapers_.
+
+You would think remembering how much of and when something occurred would be fairly straightforward. “Oh, they slept between noon and 1:30.” But, in a sleep deprived, constantly scrambling mindset, you’re lucky if you know what day it is today.
+
+We chose to use Nighp’s Baby Tracker app to help us keep track of feeds, sleep, and diaper changes. Once you overcome the initial learning curve, the app has a lot of useful features, including:
+* Syncing across devices - so one of us isn’t always asking or telling the other what happened
+* Different visualizations of the data you’ve entered (read: charts)
+* Daily summaries, because even simple math can be difficult in a sleep deprived state
+
+## Overview
+Even with all the features of Nighp’s Baby Tracker app, there are more things I could do with this data. Specifically, my partner and I started a baby sleep program and we could include this data in a view of the sleep program schedule. Or, better yet, adjust the sleep program schedule based on when activities, such as feeds and sleep, actually occurred!
+
+Below are the steps I took to programmatically extract the Baby Tracker app data.
+
+## Software Used
+* [iTerm](https://www.iterm2.com/index.html) (and the utilities _it_ offers) - You can use Terminal or even Finder with Archive Utility to extract data
+* [sqlite3 cli](https://sqlite.org/cli.html) - You can use _any_ client that supports sqlite to browse the database
+
+## Pre-reqs
+* You must have iCloud Sync enabled in the Baby Tracker app
+* You must be signed into iCloud on you Mac
+* If you want the latest data from Baby Tracker (I’d recommend you do a manual backup from the Baby Tracker app)
+
+> **NOTE** You can find information on Baby Tracker synchronization and backups at [Baby Tracker](http://nighp.com/babytracker/babytracker_faq.html).  
+
+## Steps
+### 1. Copy and Extract
+In iTerm,  run the following command to copy _latest_ and extract the latest backup to a folder called `babytracker` in the current working directory (`pwd`):
+```
+ls -dt ~/Library/Mobile\ Documents/iCloud\~com\~nighp\~babytracker/Documents/backups/* | \
+head -1 | \
+xargs -I{} cp {} ./babytracker.zip && \
+unzip babytracker.zip -d babytracker && \
+cd babytracker
+```
+
+Quick rundown on what each line does:
+
+1. List the contents (backups) of the Baby Tracker backups folder with the the full path of the file, `-d` and ordered by time `-t`
+2. Take the first line of the output from `1`
+3. Copy the file output from `2` into a file name `babytracker.zip`
+4. Unzip the `babytracker.zip` to a folder called `babytracker`
+5. Change the current working directory to `babytracker`
+
+### 2. Connect to the sqlite db. 
+Part of the backup contents is a sqlite database titled `EasyLog.db`. We can connect to that database and access the data we have recorded. 
+
+Here is an example query to see the nursings that have notes from most  to least recent:
+```
+sqlite3 EasyLog.db "SELECT * FROM Nursing WHERE note IS NOT NULL ORDER BY Time DESC ;"
+```
+
+Check out [Command Line Shell For SQLite](https://sqlite.org/cli.html) for more you can do to explore the database and extract data.
+
+> **NOTE** If you have changed the image in the Baby info section of the app, you may also notice that the backup contains the the images you have uploaded.  
+
+## Conclusion
+Now that I can query the data collected in the Baby Tracker app, I can write custom tools to use the data my partner and I are collecting. The only hurdles now are sleep deprivation and some obscure encoding I might find in the database (fingers crossed that if I do, it is just base64 encoded.) 
