@@ -4,6 +4,7 @@ module.exports = {
       resolve: `gatsby-theme-blog`,
       options: {},
     },
+    `gatsby-plugin-feed-mdx`,
   ],
   // Customize your site metadata:
   siteMetadata: {
