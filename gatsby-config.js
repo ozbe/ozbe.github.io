@@ -21,6 +21,10 @@ module.exports = {
         name: `github`,
         url: `https://github.com/ozbe`,
       },
+      {
+        name: `linkedin`,
+        url: `https://www.linkedin.com/in/josh-aaseby`,
+      },
     ],
   },
 }
