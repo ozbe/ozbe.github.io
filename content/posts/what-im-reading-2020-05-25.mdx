@@ -1,0 +1,37 @@
+---
+title: What I'm Reading - 2020-05-25
+date: 2020-05-25
+---
+
+A few things that I've read and want to recommend.
+
+## Programming inside a container
+As I mentioned in my post [ozbe.io Rises](https://ozbe.io/ozbe-io-rises/), I try to minimize what I install on my computer as much as possible. Maybe it was because I’ve been burned too much by computers failing or system bloat or wanting to selectively migrate to a new computer (not to mention the pain of recovering from a botched install or upgrade). That desire to minimize what I install not only influenced how I setup my blog, but also motivated me to develop [ozbe/local](https://github.com/ozbe/local), which contains a dev local image with tools I use day-to-day. The author of  "Programming inside a container" had a slightly different motivation, but did something similar to myself. 
+
+[Programming inside a container](https://lemire.me/blog/2020/05/22/programming-inside-a-container/)  discusses the difficulties of trying to working on different hardware and Linux distributions day-to-day. The author, reluctantly, resorts to creating a script that runs a user provided command in a Docker container with current working director mounted. Thereby alleviated many of the problems of working in different environments. Usage of this script would look something like:
+
+```
+./run ‘ gcc —version  ‘
+```
+
+I’m inspired. I’m going to take this idea and try to make some improvements to my own project.
+
+If you are tired of the cognitive overhead of remembering which system you are using, the tedium of adjusting commands to a certain system, or don’t want to fear a brew install again and are willing to use Docker, you should check out these resources.
+
+## It’s OK for your open source library to be a bit shitty
+I think a lot about opportunity cost between the personal projects I work on (yes, I think of opportunity cost outside of persona projects, but let's keep focused here). For example, if I write a blog post, that means I can’t work on a library. If I write more tests, that means I can’t add one more delight feature to a tool. 
+
+Often I try to make sure I am honest with myself to what I’m getting out of personal project before investing more time. Am I working on it to solve a problem? Am I’m doing it to learn a new technology? Am I working on it to keep sharp? Etc. Knowing this helps me keep my expectations and effort in check. Who hasn’t come out the end of a project and said, “Well, that was a waste of time.”
+
+[It’s OK for your open source library to be a bit shitty](https://www.drmaciver.com/2015/04/its-ok-for-your-open-source-library-to-be-a-bit-shitty/) encourages you not to invest all of your time in making an open source project high quality. I think the author captures a lot of what I took away from the article in the follow quote:
+
+“But that random code you threw together as a hack, stopped when it did what you needed to do, threw it up on pypi and then neglected it? That’s totally OK. Thanks for writing it. The world is slightly better for your having done so, and there is no burden of expectation on you to “do a better job”. It’s not a job after all, is it? We’re not paying you to do it.”
+
+By not pressuring yourself to make high quality personal projects, you don’t have to worry about backlash (though it could and does happen), you don’t have to keep work to yourself until it is good enough, and it should empower you to give yourself permission to feel comfortable to work on something else when a project works.
+
+> **NOTE** I encourage you to read the follow up to this article as well (check the second note at the bottom of the article). It gave a whole new meaning to the original post for me. That said, I still found value in my first read of the original post and what  I discussed above reflects that meaning.  
+
+## Don’t lead by example
+In [Don’t lead by example](https://medium.com/@jamesacowling/dont-lead-by-example-4f86b1174e64), the author talks about their struggle with their team not stepping up to support operations and finding themself picking up a lot of the slack, in hopes they would follow suit (which they didn't). The author did this until a more experienced lead gave them the advice, “hey stop trying to lead by example.” Instead, the author discusses that while it is important for the lead to set an example, they are also responsible for setting expectations of others and holding them accountable. All the while, making sure you don’t lose touch and become akin to a dictator.
+
+This article really stuck a cord with me. I suffered from a similar problem when I moved from an individual contributor (IC) role to an engineering manager. Unlike the author though, I didn’t have a more experienced lead step in to give me advice. Thankfully, instead, my team had the sense to step in. I remember my team having a mini-intervention in a design review meeting to tell me I would be removed from the on-call schedule. Why? So I could focus on supporting them, not the software operations. Thank you all again. This kept me from a possible burnout and kept the team on the path to success. ‬
