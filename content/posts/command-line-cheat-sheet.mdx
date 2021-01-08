@@ -1,9 +1,9 @@
 ---
-title: Command Line Cheat Sheet
-date: 2021-01-10
+title: Command line Cheat Sheet
+date: 2021-01-09
 ---
 
-Everyday and obscure (yet helpful) commands and references I use when working in the command line. While I have some of these memorized, there are others I need reminding, and others I that have serious enough consequences I'd rather copy and paste (e.g. [Delete all folders, except [NAME]](##-delete-all-folders-except-NAME)).
+Everyday and obscure (yet helpful) commands and references I use when working in the command line. While I have some of these memorized, there are others I need reminding, and others I that have serious enough consequences I'd rather copy and paste (e.g. [Delete all folders, except [NAME]](#delete-all-folders-except-name)).
 
 > *WARNING* I encourage you to research the utilties and arguments in a command before blindly executing them in a terminal.
 
@@ -180,13 +180,6 @@ Output all file names (including those in subdirectories) and their relative pat
 $ find .
 ```
 
-## List most recently added file
-Output the absolute file path for the most recently added file in a directory.
-
-```
-$ ls -dt [DIRECTORY]/* | head -1
-```
-
 ## Output contents of file to clipboard (macOS)
 
 ```bash
@@ -216,11 +209,6 @@ $ unzip ‘[FILE_PREFIX]*.zip’
 ## Gunzip all files in a directory
 ```bash
 $ for file in *.gz; do gunzip $file; done
-```
-
-## Curl and extract tgz
-```
-curl -fsL [TGZ_URL] | tar xfz - -C [DESTINTION]
 ```
 
 ## Get a list of name servers
