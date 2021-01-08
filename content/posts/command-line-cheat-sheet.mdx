@@ -1,0 +1,234 @@
+---
+title: Command-line Cheat Sheet
+date: 2021-01-10
+---
+
+Everyday and obscure (yet helpful) commands and references I use when working in the command-line. While I have some of these memorized, there are others I need reminding, and others I that have serious enough consequences I'd rather copy and paste (e.g. [Delete all folders, except [NAME]](##-delete-all-folders-except-NAME)).
+
+> *WARNING* I encourage you to research the utilties and arguments in a command before blindly executing them in a terminal.
+
+> *NOTE* Commands tested in `zsh 5.8 (x86_64-apple-darwin20.0)` on `macOS 11.1 (20C69)`
+
+## Bash Prompt Symbols
+* `~` Current working directory is the current user’s home directory.
+* `$` Current user is a standard user.
+* `#` Current user is the root user
+Source: [How To Change or Customize Bash Prompt In Linux {25 Options}](https://phoenixnap.com/kb/change-bash-prompt-linux)
+
+## Operators
+* `>>` Append to file
+* `>` output to something other than stdout (overwrite file)
+* `|` feed output into another process
+* `||` OR operator
+* `&&`  AND operator
+
+## Current shell
+Get a rough idea of what commands are available in _remote_ shell instance.
+
+```
+$ echo $0
+```
+Source: [How to Find Which Shell You Are Using on Linux](https://linuxhandbook.com/shell-using/)
+
+## Check exit code from previous command
+Check if the process exited successfully without using something like logging.
+
+```bash
+$ [SOME_COMMAND]
+$ echo $?
+```
+
+## Folder Size
+Spot check the size of some output or see if the folder is a candidate for removal when cleaning up the file system.
+
+```
+$ du -sh [NAME]
+```
+
+## Truncate file
+Useful when debugging or want a clean slate.
+
+```
+: > filename
+```
+
+## Pipe multi-line string* (and remove all whitespace)
+```bash
+$ cat <<EOF | tr -d "[:space:]" | readability
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Readability</title>
+    </head>
+    <body>
+        Hello, world!
+    </body>
+</html>
+EOF
+```
+
+## Move files, including dot (hidden) files
+Move _all_ the files.
+
+*Enable glob support*
+```
+$ shopt -s dotglob
+```
+
+*Move files*
+```
+$ mv [SRC]/* [DESTINATION]/
+```
+Source: [command line - How can I get mv (or the * wildcard) to move hidden files? - Ask Ubuntu](https://askubuntu.com/questions/259383/how-can-i-get-mv-or-the-wildcard-to-move-hidden-files)
+
+## Delete all folders, except [NAME]
+Clean up previous runs or logs except for the latest.
+
+```
+find . ! -name '[NAME]' -type d -exec rm -rf {} +
+```
+
+## Make directory and move into it
+[Don't repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+
+```bash
+$ mkdir [DIRECTORY] && cd $_
+```
+
+## Make intermediate directories
+Make a new directory and any missing parent directories.
+
+```bash
+$ mkdir -p [DIRECTORY_WITH_SUBDIRECTORIES]
+```
+
+## Go back to previous directory
+```bash
+$ cd -
+```
+
+## File Stats
+Get file stats, similar to `File` > `Get Info` in Finder.
+
+```bash
+$ stat [FILE]
+```
+
+## Get file chmod numerical Value (macOS)
+Get the file chmod numerical value to compare to the value you're told to set it to.
+
+```bash
+$ stat -f “%OLp” [FILE]
+```
+
+## List all processes
+List all processes to see what's running that shouldn't be?
+
+```bash
+$ ps -A
+```
+
+## Track process by port and kill said process
+Port 8080 in use?! Find the process using the port and kill it.
+
+```bash
+# get process id
+$ sudo lsof -i :[PORT]
+# kill process
+$ kill -9 [PID]
+```
+
+## Follow changes in a file
+Output new lines in a file to the terminal.
+
+```bash
+$ tail -f [FILE]
+```
+
+## Copy set number of lines from the end of one file to another file
+I only need a subset of the examples to run this test.
+
+```bash
+$ tail -n [NUM_LINES] [SRC_FILE] > [DEST_FILE]
+```
+
+## Command history to shell script
+The most recent commands worked and it'd be nice to have them saved to be ran again.
+
+```bash
+$ tail -n [NUM_LINES_PLUS_ONE] ~/.zsh_history | head -n [NUM_LINES] > [FILE].sh
+```
+
+## Recursive grep
+Search for text in directory and subdirectories.
+
+```bash
+$ grep -R ‘[SEARCH_TEXT]’
+```
+
+## List files to check with symlink
+List files and output information about symlinks. Useful when trying to find the location of a file.
+
+```bash
+$ ls -al
+```
+
+## Output all file names
+Output all file names (including those in subdirectories) and their relative path from the current working directory.
+
+```bash
+$ find .
+```
+
+## List most recently added file
+Output the absolute file path for the most recently added file in a directory.
+
+```
+$ ls -dt [DIRECTORY]/* | head -1
+```
+
+## Output contents of file to clipboard (macOS)
+
+```bash
+$ cat [FILE] | pbcopy
+```
+
+## Paste to file (macOS)
+
+```bash
+$ pbpaste > [FILE]
+```
+
+## Extract tgz to a specific folder
+Extract tgz to a specific folder instead of the current working directory.
+
+```bash
+tar zxvf [FILE].tgz -C [DESTINATION]
+```
+
+## Unzip with file wildcard
+Unzip a collection of zip files in a folder.
+
+```bash
+$ unzip ‘[FILE_PREFIX]*.zip’
+```
+
+## Gunzip all files in a directory
+```bash
+$ for file in *.gz; do gunzip $file; done
+```
+
+## Curl and extract tgz
+```
+curl -fsL [TGZ_URL] | tar xfz - -C [DESTINTION]
+```
+
+## Get a list of name servers
+```bash
+$ dig NS [domain]
+```
+
+## Test name server
+```bash
+$ dig [domain] [@_NAME_SERVER]
+```
