@@ -2,7 +2,10 @@ module.exports = {
   plugins: [
     {
       resolve: `gatsby-theme-blog`,
-      options: {},
+      options: {
+        preset: `@theme-ui/preset-base`,
+        prismPreset: `github`,
+      },
     },
     `gatsby-plugin-feed-mdx`,
   ],
