@@ -13,7 +13,8 @@ const Nav = ({ previous, next }) => (
           flexWrap: `wrap`,
           justifyContent: `space-between`,
           listStyle: `none`,
-          padding: 0,
+          px: 0,
+          py: 2,
         })}
       >
         <li>

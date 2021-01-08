@@ -1,7 +1,6 @@
 import React, { createRef, useEffect } from "react"
 
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { Styled } from "theme-ui"
 
 import Comments from "../../components/comments"
 import Layout from "gatsby-theme-blog/src/components/layout"
@@ -34,7 +33,7 @@ const Post = ({
     scriptEl.setAttribute('repo', 'ozbe/ozbe.github.io')
     scriptEl.setAttribute('issue-term', 'title')
     scriptEl.setAttribute('id', 'utterances')
-    scriptEl.setAttribute('theme', 'dark-blue')
+    scriptEl.setAttribute('theme', 'github-light')
     scriptEl.setAttribute('crossorigin', 'anonymous')
     if (commentBox && commentBox.current) {
       commentBox.current.appendChild(scriptEl)
@@ -53,17 +52,23 @@ const Post = ({
             ? post.socialImage?.childImageSharp?.fluid.src
             : post.image?.childImageSharp?.fluid.src
         }
-        keywords={post.keywords}
         imageAlt={post.imageAlt}
       />
       <main>
-        <PostHero post={post} />
-        <PostTitle>{post.title}</PostTitle>
-        <PostDate>{post.date}</PostDate>
-        <MDXRenderer>{post.body}</MDXRenderer>
-        <PostNav {...{ previous, next }}></PostNav>
-        <Styled.h2>Comments</Styled.h2>
-        <Comments commentBox={commentBox}></Comments>
+        <article>
+          <header>
+            <PostHero post={post} />
+            <PostTitle>{post.title}</PostTitle>
+            <PostDate>{post.date}</PostDate>
+          </header>
+          <section>
+            <MDXRenderer>{post.body}</MDXRenderer>
+          </section>
+          <footer>
+            <PostNav {...{ previous, next }} />
+            <Comments commentBox={commentBox}></Comments>
+          </footer>
+        </article>
       </main>
       <PostFooter />
     </Layout>
