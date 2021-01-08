@@ -10,7 +10,9 @@ import PostTitle from "gatsby-theme-blog/src/components/post-title"
 import PostDate from "gatsby-theme-blog/src/components/post-date"
 import PostFooter from "gatsby-theme-blog/src/components/post-footer"
 import PostHero from "gatsby-theme-blog/src/components/post-hero"
+import PostNav from "../../components/post-nav"
 
+/* eslint-disable react/jsx-pascal-case */
 const Post = ({
   data: {
     post,
@@ -59,13 +61,14 @@ const Post = ({
         <PostTitle>{post.title}</PostTitle>
         <PostDate>{post.date}</PostDate>
         <MDXRenderer>{post.body}</MDXRenderer>
-        <Styled.hr />
+        <PostNav {...{ previous, next }}></PostNav>
         <Styled.h2>Comments</Styled.h2>
         <Comments commentBox={commentBox}></Comments>
       </main>
-      <PostFooter {...{ previous, next }} />
+      <PostFooter />
     </Layout>
   )
 }
+/* eslint-enable react/jsx-pascal-case */
 
 export default Post
