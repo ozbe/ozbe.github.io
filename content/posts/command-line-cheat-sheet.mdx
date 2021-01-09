@@ -1,5 +1,5 @@
 ---
-title: Command line Cheat Sheet
+title: Command Line Cheat Sheet
 date: 2021-01-09
 ---
 
@@ -52,9 +52,11 @@ Useful when debugging or want a clean slate.
 : > filename
 ```
 
-## Pipe multi-line string* (and remove all whitespace)
+## Pipe multi-line string (and remove all whitespace)
+Remove the whitespace from a multi-line string and pipe to a specific utility. I use this with the [Readability CLI](https://github.com/ozbe/readability-cli) quite a bit.
+
 ```bash
-$ cat <<EOF | tr -d "[:space:]" | readability
+$ cat <<EOF | tr -d "[:space:]" | [UTILITY]
 <!DOCTYPE html>
 <html>
     <head>
