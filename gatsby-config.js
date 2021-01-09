@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = {
   plugins: [
     {
@@ -8,6 +10,13 @@ module.exports = {
       },
     },
     `gatsby-plugin-feed-mdx`,
+    {
+      resolve: `gatsby-plugin-goatcounter`,
+      options: {
+        code: isProduction ? 'ozbe' : 'ozbe-local',
+        allowLocal: !isProduction,
+      }
+    },
   ],
   // Customize your site metadata:
   siteMetadata: {

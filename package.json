@@ -12,6 +12,7 @@
     "@theme-ui/presets": "^0.3.5",
     "gatsby": "^2.30.1",
     "gatsby-plugin-feed-mdx": "^1.0.1",
+    "gatsby-plugin-goatcounter": "^0.4.0",
     "gatsby-theme-blog": "^2.0.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0"
