@@ -1,0 +1,229 @@
+---
+title: The Three "R"s: Rust, REPL, Runner
+date: 2021-01-22
+---
+
+## tl;dr 
+[Jump to the code](#cargo-project)
+
+## Intro
+When evaluating a new libraries I often find myself going through the same steps
+
+1. Do I have a pre-existing applicable project in source control?
+	1. Yes, create a branch
+	2. No, create a new Cargo package
+2. Add the dependency to `Cargo.toml`
+3. Change some relevant code to try something out about the library
+4. Build
+5. Run
+6. Do I have everything I need to know to make a decision about the library
+	1. Yes, go do what I need to do
+	2. No, go back to Step 3
+
+These steps can grow tedious, especially when making a new cargo package, and the iterations can be shortened by more work up front looking at documentation, source, and examples. But sometimes you just want to experiment in a quick and efficient way. That is when REPLs and runners can prove to be helpful.
+
+For the uninitiated, a REPL is typically an interactive shell that takes user input, evaluates said input, and returns the result.  Assuming I can access the required dependencies, I should be able to take the contents of the `fn main()` above and enter each expressions in line-by-line in a REPL.
+
+I did some digging to find an official Rust REPL and there is an open issue to officially support [implement a proper REPL · Issue #655 · rust-lang/rfcs · GitHub](https://github.com/rust-lang/rfcs/issues/655).
+
+While there isn’t an official REPL, there is at least one active Rust REPL:
+* [Evcxr REPL](https://github.com/google/evcxr/blob/master/evcxr_repl/README.md#installation-and-usage)
+
+A Rust runner allows you to run (well, compile, link, _and_ run) Rust without the _bloat_ of Cargo. Similar to the REPLs, there isn’t an official Rust runner, besides Cargo, and there are a few options:
+* [runner](https://github.com/stevedonovan/runner)
+* [cargo-eval](https://github.com/reitermarkus/cargo-eval)?
+
+Now that we have a better idea of the landscape, let’s implement the same Rust example with these tools.  Our example will use `serde_json` to print a serialized and deserialized `Point` struct. We will begin with a Cargo package as our baseline.
+
+## Cargo Package
+To start with the Cargo package we will create a new cargo package and move into the package directory
+```bash
+$ cargo new cargo-serde-example
+$ cd cargo-serde-example
+```
+
+Next, lets add the Serde dependencies we’ll need to the bottom of the `Cargo.toml` under `[dependencies]`
+```toml
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+```
+
+With the proper dependencies, change `./src/main.rs` to match the code below
+```rust
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+	x: i32,
+	y: i32,
+}
+
+fn main() {
+	let point = Point { x: 1, y: 2 };
+	let serialized = serde_json::to_string(&point).unwrap();
+	println!("serialized = {}", serialized);
+	let deserialized: Point = serde_json::from_str(&serialized).unwrap();
+	println!("deserialized = {:?}", deserialized);
+}
+```
+
+Finally, we can run the package
+```bash
+$ cargo run
+```
+
+You should see the following at the bottom of the output
+```toml
+serialized = {"x":1,"y":2}
+deserialized = Point { x: 1, y: 2 }
+```
+
+Now with our baseline, we can try the REPLs and runners.
+
+## Evcxr REPL
+**TODO** intro to evcxr
+
+### Setup
+Source: [evcxr/README.md at master · google/evcxr · GitHub](https://github.com/google/evcxr/blob/master/evcxr_repl/README.md#installation-and-usage)
+
+Before you install the REPL, you must download a local copy of Rust's source code:
+```bash
+$ rustup component add rust-src
+```
+
+Now you can go ahead and install the binary:
+```bash
+$ cargo install evcxr_repl
+```
+
+### Run
+Enter the following lines in (without the `>> `) the REPL to get the _same_ output as the Cargo package 
+```bash
+$ evcxr
+>> :dep serde = { version = "1.0", features = ["derive"] }
+>> :dep serde_json = { version = "1.0" }
+>> use serde::{Serialize, Deserialize};
+>> #[derive(Serialize, Deserialize, Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+>> let point = Point { x: 1, y: 2 };
+>> let serialized = serde_json::to_string(&point).unwrap();
+>> println!("serialized = {}", serialized);
+>> let deserialized: Point = serde_json::from_str(&serialized).unwrap();
+>> println!("deserialized = {:?}", deserialized);
+```
+
+A few things to note about the REPL session
+1. `:dep` lines are equivalent to the `[dependencies` section of the `Cargo.toml` in the Cargo package
+2. The session does not end until we exit the REPL. We can continue to work with the previous lines until we exit or the REPL is reset.
+
+It isn’t hard to imagine how this REPL session would be useful when exploring the functionality of an API or doing some one-off work.
+
+## runner
+**TODO** intro to cargo runner, runs scripts
+
+### Setup
+```bash
+$ cargo install runner
+``` 
+
+### Run
+
+First we need to add the Serde dependencies to runner’s static cache (just trust me). Run the following command to add `serde` and initialize the static cache.
+```bash
+$ runner add serde
+```
+
+Now we will edit the static cache manually
+```bash
+$ runner edit
+```
+
+At the bottom of the file you will see
+```toml
+serde="*"
+```
+
+Replace `serde=“*”` with
+```toml
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+```
+
+Save the file and now we will rebuild the static cache
+```bash
+runner --build
+```
+
+The dependencies are now available for our runner script that we are now going to create. 
+
+Copy the following contents to a new file named `runner-serde-example.rs`
+```rust
+extern crate serde_json;
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+	x: i32,
+	y: i32,
+}
+
+let point = Point { x: 1, y: 2 };
+let serialized = serde_json::to_string(&point).unwrap();
+println!("serialized = {}", serialized);
+let deserialized: Point = serde_json::from_str(&serialized).unwrap();
+println!("deserialized = {:?}", deserialized);
+```
+
+Finally, run the script
+```bash
+$ runner -s runner-serde-example.rs
+```
+
+The `-s`  in the command tells runner to “evaluate expressions against crates compiled as static libraries.” So, use the Serde dependencies we added earlier.
+
+## cargo-eval
+**TODO** intro to cargo eval
+
+### Setup
+```bash
+cargo install cargo-eval
+```
+
+### Run
+Create a new file called  `cargo-eval-serde-example.rs` and copy in the following script contents
+```rust
+//! ```cargo
+//! [dependencies]
+//! serde = { version = "1.0", features = ["derive"] }
+//! serde_json = "1.0"
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Point {
+	x: i32,
+	y: i32,
+}
+
+fn main() {
+	let point = Point { x: 1, y: 2 };
+	let serialized = serde_json::to_string(&point).unwrap();
+	println!("serialized = {}", serialized);
+	let deserialized: Point = serde_json::from_str(&serialized).unwrap();
+	println!("deserialized = {:?}", deserialized);
+}
+```
+
+The first line denotes the start of a partial Cargo manifest. In this section you can configure dependencies and manifest information. The rest of the script should look familiar at this point. We have all we need for our example, so let’s run the script.
+
+Run the script with
+```bash
+$ cargo eval cargo-eval-serde-example
+```
+
+## Conclusion
+Which to use, depends on your use case and preferences.
+
+For other examples, check out [GitHub - ozbe/rust-repls-and-runners: A collection of examples implemented with different Rust REPLs & Runners.](https://github.com/ozbe/rust-repls-and-runners)
