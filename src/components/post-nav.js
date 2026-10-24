@@ -1,41 +1,38 @@
-import React from "react"
+/** @jsxImportSource theme-ui */
 import { Link } from "gatsby"
-import { css, Styled, Flex } from "theme-ui"
 
-/* eslint-disable react/jsx-pascal-case */
 const Nav = ({ previous, next }) => (
   <div>
-    <Styled.hr />
+    <hr sx={{ variant: `styles.hr` }} />
     {(previous || next) && (
-      <Flex
-        as="ul"
-        css={css({
+      <ul
+        sx={{
+          display: `flex`,
           flexWrap: `wrap`,
           justifyContent: `space-between`,
           listStyle: `none`,
           px: 0,
           py: 2,
-        })}
+        }}
       >
         <li>
           {previous && (
-            <Styled.a as={Link} to={previous.slug} rel="prev">
+            <Link sx={{ variant: `styles.a` }} to={previous.slug} rel="prev">
               ← {previous.title}
-            </Styled.a>
+            </Link>
           )}
         </li>
         <li>
           {next && (
-            <Styled.a as={Link} to={next.slug} rel="next">
+            <Link sx={{ variant: `styles.a` }} to={next.slug} rel="next">
               {next.title} →
-            </Styled.a>
+            </Link>
           )}
         </li>
-      </Flex>
+      </ul>
     )}
-    <Styled.hr />
+    <hr sx={{ variant: `styles.hr` }} />
   </div>
 )
-/* eslint-enable react/jsx-pascal-case */
 
 export default Nav

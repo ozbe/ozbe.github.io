@@ -6,11 +6,37 @@ on:
       - '**'
 
 jobs:
+  # Builds every branch; only the gatsby branch is deployed
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: enriikke/gatsby-gh-pages-action@v2
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
-          skip-publish: ${{ github.ref != 'refs/heads/gatsby' }}
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          GATSBY_TELEMETRY_DISABLED: 1
+      - if: github.ref == 'refs/heads/gatsby'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+
+  deploy:
+    if: github.ref == 'refs/heads/gatsby'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

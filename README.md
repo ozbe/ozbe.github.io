@@ -1,23 +1,29 @@
 # ozbe.github.io
 
-Personal blog accessible at [ozbe.dev](https://ozbe.dev)
+Personal site and blog, accessible at [ozbe.dev](https://ozbe.dev)
 
 ## Develop
 
-In project root, start the Gatsby Docker container:
+Install the Node version in `.nvmrc` with [nvm](https://github.com/nvm-sh/nvm) and install dependencies:
 ```bash
-$ ./run.sh
+$ nvm install
+$ npm ci
 ```
 
-In Gatsby Docker container, start the Gatsby development server:
+Start the Gatsby development server:
 ```bash
-$ ./develop.sh
+$ npm run develop
 ```
 
-After the development server starts. Go back on the host machine (in another terminal) and open the site in Chrome:
-```bash
-open -a "Google Chrome" http://localhost:8000/
-```
+Then open [http://localhost:8000/](http://localhost:8000/).
+
+## Publish
+
+Every push builds the site with GitHub Actions. Pushes to the `gatsby` branch are also deployed to GitHub Pages.
+
+## Apps
+
+The home page lists the apps in `src/pages/index.js`. Each app's site lives in its own `*-gh-pages` repo, is served from `*.ozbe.dev` and provides the `icon.png` shown in the grid.
 
 ## Troubleshooting
 
@@ -30,5 +36,5 @@ open -a "Google Chrome" http://localhost:8000/
 #### Possible Solution 2: Gatsby Clean
 
 1. Stop the Gatsby server, if it is running
-2. Clean the cache with `gatsby clean`
+2. Clean the cache with `npm run clean`
 3. Restart whatever process or command you were using
