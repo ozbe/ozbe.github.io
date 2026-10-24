@@ -21,6 +21,7 @@ const Seo = ({ title, description }) => {
     <>
       <html lang="en" />
       <title>{`${title} | ${site.siteMetadata.title}`}</title>
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       <meta name="description" content={metaDescription} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={metaDescription} />
