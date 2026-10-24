@@ -17,7 +17,7 @@ const apps = [
   {
     name: `Paper Shapes`,
     url: `https://papershapes.ozbe.dev/`,
-    description: `Short, interactive stories for young children, starring Mo, Dewey, Pip and Otis.`,
+    description: `Short, interactive stories for young children, starring Circle, Square, Triangle and Cross.`,
   },
   {
     name: `Relative Time`,
