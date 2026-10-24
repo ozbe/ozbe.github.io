@@ -23,7 +23,7 @@ module.exports = {
     title: `ozbe`,
     author: `Josh Aaseby`,
     description: `A collection of my thoughts and writings.`,
-    siteUrl: "https://ozbe.io/",
+    siteUrl: "https://ozbe.dev/",
     social: [
       {
         name: `twitter`,

@@ -9,7 +9,7 @@ Automatically run Gatsby build on feature branch pushes and prevent feature bran
 You can see the code changes here [Verify Gatsby build succeeds on branches by ozbe · Pull Request #2 · ozbe/ozbe.github.io · GitHub](https://github.com/ozbe/ozbe.github.io/pull/2)
 
 ## Background
-While working on adding RSS to ozbe.io in a feature branch, I nearly merged some changes that would have broken the build in the release branch. As discussed in [ozbe.io Rises](https://ozbe.io/ozbe-io-rises/), changes pushed to the release branch, `gatsby`, are automatically built and published, that includes changes that come from a merge request.
+While working on adding RSS to ozbe.io in a feature branch, I nearly merged some changes that would have broken the build in the release branch. As discussed in [ozbe.io Rises](https://ozbe.dev/ozbe-io-rises/), changes pushed to the release branch, `gatsby`, are automatically built and published, that includes changes that come from a merge request.
 
 Thankfully the GitHub Actions workflow would have stopped on the broken build and not published the broken changes. The worst that could happen would be that I have to make a hot-fix and hang my head in shame.
 

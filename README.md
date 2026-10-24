@@ -1,6 +1,6 @@
 # ozbe.github.io
 
-Personal blog accessible at [ozbe.io](https://ozbe.io)
+Personal blog accessible at [ozbe.dev](https://ozbe.dev)
 
 ## Develop
 
