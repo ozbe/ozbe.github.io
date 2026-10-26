@@ -5,16 +5,29 @@ import Bio from "./bio"
 const isPath = (location, path) =>
   location.pathname.replace(/\/$/, ``) === path.replace(/\/$/, ``)
 
+const titleLink = {
+  display: `inline-flex`,
+  alignItems: `center`,
+  gap: 2,
+  textDecoration: `none`,
+}
+
+const Bee = () => (
+  <img src="/favicon.svg" alt="" sx={{ width: `1.25em`, height: `1.25em` }} />
+)
+
 const Title = ({ isRoot, children }) =>
   isRoot ? (
     <h1 sx={{ variant: `styles.h1`, my: 0, fontSize: 4 }}>
-      <Link to="/" sx={{ color: `inherit`, textDecoration: `none` }}>
+      <Link to="/" sx={{ ...titleLink, color: `inherit` }}>
+        <Bee />
         {children}
       </Link>
     </h1>
   ) : (
     <p sx={{ variant: `styles.h3`, my: 0 }}>
-      <Link to="/" sx={{ color: `primary`, textDecoration: `none` }}>
+      <Link to="/" sx={{ ...titleLink, color: `primary` }}>
+        <Bee />
         {children}
       </Link>
     </p>
