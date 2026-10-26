@@ -18,10 +18,7 @@ const Footer = () => {
 
   return (
     <footer sx={{ mt: 4, pt: 3 }}>
-      © {new Date().getFullYear()}, Powered by{` `}
-      <a sx={{ variant: `styles.a` }} href="https://www.gatsbyjs.com">
-        Gatsby
-      </a>
+      © {new Date().getFullYear()}
       {site.siteMetadata.social.map(platform => (
         <Fragment key={platform.url}>
           {` `}&bull;{` `}
