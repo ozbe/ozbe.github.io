@@ -23,7 +23,7 @@ Posts are MDX files in `content/posts`, either `<slug>.mdx` or `<slug>/index.mdx
 
 ## Publish
 
-Every push builds the site with GitHub Actions. Pushes to the `gatsby` branch are also deployed to GitHub Pages.
+Every push builds the site with GitHub Actions. Pushes to the `main` branch are also deployed to GitHub Pages.
 
 ## Apps
 

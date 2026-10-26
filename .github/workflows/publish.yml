@@ -6,7 +6,7 @@ on:
       - '**'
 
 jobs:
-  # Builds every branch; only the gatsby branch is deployed
+  # Builds every branch; only the main branch is deployed
   build:
     runs-on: ubuntu-latest
     steps:
@@ -19,13 +19,13 @@ jobs:
       - run: npm run build
         env:
           ASTRO_TELEMETRY_DISABLED: 1
-      - if: github.ref == 'refs/heads/gatsby'
+      - if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
   deploy:
-    if: github.ref == 'refs/heads/gatsby'
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
