@@ -1,0 +1,56 @@
+---
+import { render } from "astro:content"
+import Layout from "../layouts/Layout.astro"
+import Bio from "../components/Bio.astro"
+import PostNav from "../components/PostNav.astro"
+import Comments from "../components/Comments.astro"
+import { getPosts, postPath, formatDate, excerpt } from "../posts.js"
+
+export async function getStaticPaths() {
+  const link = post =>
+    post ? { path: postPath(post), title: post.data.title } : null
+
+  // Posts are newest first, so "previous" is the next older post
+  const posts = await getPosts()
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      previous: link(posts[index + 1]),
+      next: link(posts[index - 1]),
+    },
+  }))
+}
+
+const { post, previous, next } = Astro.props
+const { Content } = await render(post)
+---
+
+<Layout title={post.data.title} description={excerpt(post)}>
+  <main>
+    <article>
+      <header>
+        <h1>{post.data.title}</h1>
+        <p>{formatDate(post.data.date)}</p>
+      </header>
+      <section>
+        <Content />
+      </section>
+      <footer>
+        <PostNav previous={previous} next={next} />
+        <Comments />
+      </footer>
+    </article>
+  </main>
+  <footer>
+    <hr />
+    <Bio />
+  </footer>
+</Layout>
+
+<style>
+  /* The browser's default h1, as the old Gatsby site rendered post titles */
+  h1 {
+    line-height: normal;
+  }
+</style>

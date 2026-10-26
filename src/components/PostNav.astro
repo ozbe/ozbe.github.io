@@ -1,0 +1,38 @@
+---
+const { previous, next } = Astro.props
+---
+
+<div>
+  <hr />
+  {
+    (previous || next) && (
+      <ul>
+        <li>
+          {previous && (
+            <a href={previous.path} rel="prev">
+              ← {previous.title}
+            </a>
+          )}
+        </li>
+        <li>
+          {next && (
+            <a href={next.path} rel="next">
+              {next.title} →
+            </a>
+          )}
+        </li>
+      </ul>
+    )
+  }
+  <hr />
+</div>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    padding: 8px 0;
+  }
+</style>

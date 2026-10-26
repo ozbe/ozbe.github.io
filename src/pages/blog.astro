@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Footer from "../components/Footer.astro"
+import { getPosts, postPath, formatDate, excerpt } from "../posts.js"
+
+const posts = await getPosts()
+---
+
+<Layout title="Blog">
+  <main>
+    {
+      posts.map(post => (
+        <article>
+          <header>
+            <h2>
+              <a href={postPath(post)}>{post.data.title}</a>
+            </h2>
+            <small>{formatDate(post.data.date)}</small>
+          </header>
+          <section>
+            <p>{excerpt(post)}</p>
+          </section>
+        </article>
+      ))
+    }
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  h2 {
+    margin-bottom: 4px;
+  }
+
+  h2 a {
+    text-decoration: none;
+  }
+</style>

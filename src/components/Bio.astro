@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets"
+import avatar from "../assets/avatar.png"
+---
+
+<div class="bio">
+  <Image
+    src={avatar}
+    alt="Josh Aaseby"
+    layout="fixed"
+    width={48}
+    height={48}
+  />
+  <div>
+    Josh Aaseby
+    <br />
+    Software Engineer
+  </div>
+</div>
+
+<style>
+  .bio {
+    display: flex;
+    margin-bottom: 32px;
+    align-items: center;
+  }
+
+  img {
+    margin-right: 8px;
+    min-width: 48px;
+    border-radius: 99999px;
+  }
+</style>

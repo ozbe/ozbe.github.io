@@ -1,4 +1,4 @@
-name: Gatsby Publish
+name: Publish
 
 on:
   push:
@@ -18,11 +18,11 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          GATSBY_TELEMETRY_DISABLED: 1
+          ASTRO_TELEMETRY_DISABLED: 1
       - if: github.ref == 'refs/heads/gatsby'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: public
+          path: dist
 
   deploy:
     if: github.ref == 'refs/heads/gatsby'
