@@ -1,0 +1,24 @@
+---
+import { site } from "../site.js"
+---
+
+<footer>
+  © {new Date().getFullYear()}
+  {
+    site.social.map(platform => (
+      <Fragment>
+        {` `}&bull;{` `}
+        <a href={platform.url} target="_blank" rel="noopener noreferrer">
+          {platform.name}
+        </a>
+      </Fragment>
+    ))
+  }
+</footer>
+
+<style>
+  footer {
+    margin-top: 32px;
+    padding-top: 16px;
+  }
+</style>

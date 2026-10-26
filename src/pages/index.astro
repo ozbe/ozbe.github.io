@@ -1,0 +1,101 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Footer from "../components/Footer.astro"
+
+const apps = [
+  {
+    name: `Jim`,
+    url: `https://jim.ozbe.dev/`,
+    description: `A simple weekly gym plan for people who'd like to be a bit stronger and don't have much time.`,
+  },
+  {
+    name: `Outback`,
+    url: `https://outback.ozbe.dev/`,
+    description: `A small web browser for Apple Watch, with an iPhone companion for the pages you save.`,
+  },
+  {
+    name: `Paper Shapes`,
+    url: `https://papershapes.ozbe.dev/`,
+    description: `Short, interactive stories for young children, starring Circle, Square, Triangle and Cross.`,
+  },
+  {
+    name: `Relative Time`,
+    url: `https://relativetime.ozbe.dev/`,
+    description: `A world clock for the people and places you care about, with a map, a scrubber and widgets.`,
+  },
+  {
+    name: `Vanilla`,
+    url: `https://vanilla.ozbe.dev/`,
+    description: `Save web pages and read them later in a clean reading mode, offline.`,
+  },
+]
+---
+
+<Layout title="Apps" description="Apps made by Josh Aaseby.">
+  <main>
+    <h2>Apps</h2>
+    <ul>
+      {
+        apps.map(({ name, url, description }) => (
+          <li>
+            <a href={url}>
+              <img src={`${url}icon.png`} alt="" width="64" height="64" />
+              <span class="name">{name}</span>
+              <span class="description">{description}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  h2 {
+    margin-top: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 -16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+
+  a {
+    display: block;
+    height: 100%;
+    padding: 16px;
+    border-radius: 8px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus {
+    background-color: var(--muted);
+  }
+
+  img {
+    display: block;
+    border-radius: 22%;
+    margin-bottom: 8px;
+  }
+
+  span {
+    display: block;
+  }
+
+  .name {
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .description {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+</style>

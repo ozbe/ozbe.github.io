@@ -10,12 +10,16 @@ $ nvm install
 $ npm ci
 ```
 
-Start the Gatsby development server:
+Start the Astro development server:
 ```bash
-$ npm run develop
+$ npm run dev
 ```
 
-Then open [http://localhost:8000/](http://localhost:8000/).
+Then open [http://localhost:4321/](http://localhost:4321/).
+
+## Posts
+
+Posts are MDX files in `content/posts`, either `<slug>.mdx` or `<slug>/index.mdx` with the post's images beside it. Each is served at `/<slug>/`.
 
 ## Publish
 
@@ -23,7 +27,7 @@ Every push builds the site with GitHub Actions. Pushes to the `gatsby` branch ar
 
 ## Apps
 
-The home page lists the apps in `src/pages/index.js`. Each app's site lives in its own `*-gh-pages` repo, is served from `*.ozbe.dev` and provides the `icon.png` shown in the grid.
+The home page lists the apps in `src/pages/index.astro`. Each app's site lives in its own `*-gh-pages` repo, is served from `*.ozbe.dev` and provides the `icon.png` shown in the grid.
 
 ## Troubleshooting
 
@@ -33,8 +37,8 @@ The home page lists the apps in `src/pages/index.js`. Each app's site lives in i
 
 [How to hard refresh your browser Chrome, Firefox, Safari](https://fabricdigital.co.nz/blog/how-to-hard-refresh-your-browser-and-clear-cache)
 
-#### Possible Solution 2: Gatsby Clean
+#### Possible Solution 2: Clear the Astro cache
 
-1. Stop the Gatsby server, if it is running
-2. Clean the cache with `npm run clean`
+1. Stop the Astro server, if it is running
+2. Delete the cache with `rm -rf .astro node_modules/.astro`
 3. Restart whatever process or command you were using
