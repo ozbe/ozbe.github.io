@@ -20,15 +20,15 @@ const Title = ({ isRoot, children }) =>
   isRoot ? (
     <h1 sx={{ variant: `styles.h1`, my: 0, fontSize: 4 }}>
       <Link to="/" sx={{ ...titleLink, color: `inherit` }}>
-        <Bee />
         {children}
+        <Bee />
       </Link>
     </h1>
   ) : (
     <p sx={{ variant: `styles.h3`, my: 0 }}>
       <Link to="/" sx={{ ...titleLink, color: `primary` }}>
-        <Bee />
         {children}
+        <Bee />
       </Link>
     </p>
   )
